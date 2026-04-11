@@ -1,5 +1,8 @@
 # Making Of
 
+## Entrada 1 — Definição inicial das entidades
+
+**Descrição:**
 Para começar, defini as entidades que ia precisar e os respetivos atributos. A ideia inicial era esta:
 
 1. **UC** — nome, ano, semestre, professor, imagem, projeto, codigo_uc
@@ -11,72 +14,228 @@ Para começar, defini as entidades que ia precisar e os respetivos atributos. A 
 7. **Formacao** — nome, empresa, descricao
 8. **Making Of** — registos_trabalho, descricao_decisoes, erros_encontrados
 
-Depois de ter as entidades definidas, fiz o diagrama ER:
+**Alteração:** Nenhuma, foi a definição inicial.
 
-![alt text](media/makingof/diagrama_1.png)
+**Justificação:** Nenhuma, foi a definição inicial.
 
----
-
-Quando comecei a implementar as entidades no Django apercebi-me que algumas coisas não faziam muito sentido. Havia atributos mal colocados e percebi que fazia sentido adicionar uma entidade nova — o **Professor** (que depois passei a chamar **Docente**, achei mais correto).
-
-![alt text](media/makingof/diagrama_2.png)
-
-A entidade Docente não estava nos requisitos mas faz todo o sentido existir — cada UC tem professores que a lecionam, e com esta entidade consigo guardar informações extra como a formação académica deles.
-
-Aproveitei também para fazer algumas limpezas. Na entidade **Projeto** tirei o atributo `uc` porque percebi que a lógica estava invertida — é a UC que tem um Projeto, não o contrário. Na entidade **Tecnologia** mudei o atributo `interesse` para `classificacao`, que representa o quão à vontade estou com a tecnologia, e acrescentei o atributo `logo` para guardar o logótipo.
+**Registo em papel:**
+![Diagrama ER inicial](media/makingof/diagram_01.jpg)
 
 ---
 
-Na entidade **Competencia** mantive os atributos mas mudei `nome` para `tipo` — faz mais sentido falar em "tipo de competência" do que em "nome de competência". Adicionei também uma ligação entre **Projeto** e **Competencia**, já que foi através dos projetos que fui adquirindo as competências.
+## Entrada 2 — Revisão das entidades e adição do Docente
+
+**Descrição:**
+Ao implementar as entidades no Django apercebi-me que havia atributos mal colocados e que fazia sentido adicionar uma nova entidade — o **Docente**.
+
+**Alteração:**
+- Adicionei a entidade Docente
+- Removi o atributo `uc` da entidade Projeto
+- Mudei `interesse` para `classificacao` na entidade Tecnologia
+- Acrescentei o atributo `logo` à entidade Tecnologia
+
+**Justificação:**
+A entidade Docente faz sentido existir pois é importante saber quem leciona cada UC. O atributo `uc` no Projeto estava invertido — é a UC que tem um Projeto. O atributo `classificacao` representa melhor o quão à vontade estou com a tecnologia.
+
+**Entidades relacionadas:** Docente, Projeto, Tecnologia
 
 ---
 
-No `admin.py` fui ajustando o `list_display` à medida que achei que faltava informação. No **DocenteAdmin** acrescentei o email, no **ProjetoAdmin** o repositório, no **TecnologiaAdmin** o site oficial e no **UCAdmin** o ano e o semestre. São coisas que parecem óbvias mas que só fui reparando que faltavam depois de ver o admin em funcionamento.
+## Entrada 3 — Alterações na entidade Competencia e ligação ao Projeto
+
+**Descrição:**
+Finalizei a entidade Competencia e liguei-a à entidade Projeto.
+
+**Alteração:**
+- Mudei o atributo `nome` para `tipo`
+- Adicionei relação N para N entre Projeto e Competencia
+
+**Justificação:**
+Faz mais sentido falar em "tipo de competência" do que "nome de competência". A ligação ao Projeto existe porque foi através dos projetos que adquiri as competências.
+
+**Entidades relacionadas:** Competencia, Projeto
 
 ---
 
-Na entidade **Docente** mudei o atributo `email` de `CharField()` para `EmailField()`, lembrando-me que numa ficha anterior de Django tinha usado este campo e que era mais correto para guardar emails.
+## Entrada 4 — Ajustes no admin.py
 
-Na entidade **Formacao** fiz algumas alterações em relação à ideia original. Mudei `nome` para `tipo` porque nem todas as formações têm um nome propriamente dito, tirei o atributo `empresa` porque nem todas as formações são feitas por empresas, e acrescentei `data` para saber quando foi feita. Por fim liguei **Formacao** à entidade **Tecnologia**, já que podem existir formações específicas de certas tecnologias.
+**Descrição:**
+Fui ajustando o `list_display` de cada modelo no admin à medida que via que faltava informação útil. Só depois de ver o admin em funcionamento é que reparei que faltavam campos importantes.
 
----
+**Alteração:**
+- Adicionei `email` ao DocenteAdmin
+- Adicionei `repositorio` ao ProjetoAdmin
+- Adicionei `site_oficial` ao TecnologiaAdmin
+- Adicionei `ano` e `semestre` ao UCAdmin
 
-A entidade **MakingOf** também ficou bastante diferente do plano inicial. Mudei `registos_trabalho` para `fotos`, e separei a descrição em campos mais específicos — `alteracao` e `justificacao` — para estar mais organizado. Adicionei ainda um campo `llm` para registar se usei algum modelo de linguagem e de que forma ajudou.
+**Justificação:**
+São campos importantes para identificar rapidamente cada registo sem ter de abrir o detalhe de cada um.
 
----
-
-Para a entidade **Tfc** fui primeiro ver o ficheiro `.json` que tinha feito na ficha 4 de web scraping e mapeei os atributos diretamente a partir daí. Os atributos ficaram: `titulo`, `aluno`, `orientador`, `licenciatura`, `pdf`, `mail`, `resumo`, `palavras_chave`, `tecnologias` e `rating`.
-
-Aproveitei também para mudar todos os atributos `descricao` de `CharField()` para `TextField()` em todas as entidades — é mais correto quando não sabemos o tamanho do texto que vai ser inserido.
-
----
-
-Para carregar os dados dos TFCs criei o `loader_tfc.py`, seguindo as instruções do professor. Criei a pasta `data/` e coloquei lá o `tfc.json` com toda a informação dos TFCs.
+**Entidades relacionadas:** Docente, Projeto, Tecnologia, UC
 
 ---
 
-Para carregar as UCs usei o script dado pelo professor que consome uma API da Lusófona. Analisei os JSONs gerados e escolhi os atributos que achei mais relevantes: `ects`, `objetivo`, `programa` e `avaliacao`.
+## Entrada 5 — Alterações nas entidades Docente e Formacao
 
-Quando corri o `loader_uc.py` dei com um erro num ficheiro específico — era diferente de todos os outros, tinha informação da licenciatura, dos docentes e das UCs em conjunto. O problema era que o loader tentava ler campos que não existiam nesse ficheiro. Resolvi mover esse ficheiro para a pasta `data/` diretamente e adaptar o loader para o usar como ponto de partida — primeiro vai buscar o código de cada UC nesse ficheiro geral, e depois vai ao ficheiro individual de cada UC para obter informação mais detalhada.
+**Descrição:**
+Corrigi o tipo do campo email no Docente e reestruturei a entidade Formacao em relação ao plano original.
 
----
+**Alteração:**
+- Email mudou de `CharField()` para `EmailField()` no Docente
+- Na Formacao: `nome` passou a `tipo`, removido `empresa`, acrescentado `data`
+- Adicionada ligação entre Formacao e Tecnologia
 
-Depois de ver o JSON com mais atenção retirei o atributo `avaliacao` da entidade UC — o campo vinha com código HTML dentro, o que não era utilizável.
+**Justificação:**
+`EmailField()` é mais correto para guardar emails. Nem todas as formações têm nome ou são feitas por empresas. A data é importante para contextualizar quando foi feita a formação. A ligação à Tecnologia existe porque podem existir formações específicas de certas tecnologias.
 
----
-
-No `loader_uc.py` acrescentei também o carregamento dos **Docentes**. Para isso adicionei os atributos `card_code`, `employee_code`, `degree` e `regime` à entidade, que eram os mais relevantes no JSON. Removi o atributo `site` que tinha colocado no início — quando planeei a entidade estava a imaginar que íamos buscar os dados manualmente a algum site, mas como acabámos por usar uma API isso deixou de fazer sentido.
-
----
-
-Atualizei o **DocenteAdmin** para listar mais informação: `employee_code`, `email`, `degree` e `regime` no `list_display`. No `ordering` adicionei `employee_code` para desempatar quando há nomes iguais, e no `search_fields` acrescentei `employee_code` e `email` para ter mais opções de pesquisa.
-
----
-
-Ainda no `loader_uc.py` adicionei o carregamento da **Licenciatura**, usando os atributos `curso_codigo`, `semestres`, `descricao`, `objetivos` e `curso_ects`.
-
-Durante os testes dei conta de um erro — tinha colocado os ECTS no campo `curso_codigo` por engano. Corrigi de seguida.
+**Entidades relacionadas:** Docente, Formacao, Tecnologia
 
 ---
 
-Por fim adicionei `blank=True` ao atributo `repositorio` da entidade **Projeto**, já que nem todos os projetos têm repositório, e ao atributo `docente` da entidade **UC**, porque ao criar as UCs os docentes podem ainda não estar registados na base de dados.
+## Entrada 6 — Alterações na entidade MakingOf
+
+**Descrição:**
+A entidade MakingOf ficou bastante diferente do plano original após perceber que os campos genéricos não eram suficientes para estruturar bem a informação.
+
+**Alteração:**
+- `registos_trabalho` passou a `fotos`
+- Separei a descrição nos campos `alteracao` e `justificacao`
+- Adicionei o campo `llm`
+
+**Justificação:**
+Campos mais específicos tornam o registo mais organizado. O campo `llm` serve para documentar se e como usei modelos de linguagem em cada etapa, como é pedido no enunciado.
+
+**Entidades relacionadas:** MakingOf
+
+---
+
+## Entrada 7 — Criação da entidade Tfc e correção dos TextField
+
+**Descrição:**
+Criei a entidade Tfc com base nos atributos do ficheiro `.json` da ficha 4 de web scraping. Aproveitei também para corrigir os tipos dos campos de descrição em todas as entidades.
+
+**Alteração:**
+- Criada entidade Tfc com os atributos `titulo`, `aluno`, `orientador`, `licenciatura`, `pdf`, `mail`, `resumo`, `palavras_chave`, `tecnologias` e `rating`
+- Todos os atributos `descricao` passaram de `CharField()` para `TextField()` em todas as entidades
+
+**Justificação:**
+`TextField()` é mais correto quando não se sabe o tamanho do texto que vai ser inserido, evitando erros por limite de caracteres.
+
+**Entidades relacionadas:** Tfc
+
+---
+
+## Entrada 8 — Criação do loader_tfc.py
+
+**Descrição:**
+Criei o loader para carregar os dados dos TFCs a partir do ficheiro `tfc.json`, seguindo as instruções do professor.
+
+**Alteração:**
+- Criada a pasta `data/`
+- Criado o ficheiro `loader_tfc.py`
+
+**Justificação:**
+O carregamento de dados via loader permite popular a base de dados de forma rápida e repetível, sem ter de inserir os dados manualmente pelo admin.
+
+**Entidades relacionadas:** Tfc
+
+---
+
+## Entrada 9 — Criação do loader_uc.py e carregamento das UCs
+
+**Descrição:**
+Usei o script disponibilizado pelo professor que consome uma API da Lusófona para gerar os JSONs das UCs, e criei o loader para as carregar na base de dados. Ao correr o loader deparei-me com um erro num ficheiro específico que era diferente dos restantes — continha informação geral da licenciatura, dos docentes e das UCs em conjunto. Adaptei o loader para usar esse ficheiro como ponto de partida.
+
+**Alteração:**
+- Adicionados atributos `ects`, `objetivo` e `programa` à entidade UC
+- Removido o atributo `avaliacao`
+- Criada a pasta `data/ucs/` com os ficheiros JSON individuais de cada UC
+- Ficheiro geral movido diretamente para `data/`
+
+**Justificação:**
+O atributo `avaliacao` foi removido porque o campo vinha com código HTML no JSON, o que o tornava inutilizável. A separação entre o ficheiro geral e os ficheiros individuais permitiu ter informação mais completa para cada UC.
+
+**Entidades relacionadas:** UC
+
+---
+
+## Entrada 10 — Criação de um repositório novo
+
+**Descrição:**
+O repositório original tinha problemas de configuração que estavam a causar erros ao correr o projeto. Decidi criar um repositório novo e migrar o trabalho para lá.
+
+**Alteração:**
+- Criado novo repositório no GitHub
+- Migrado todo o código para o novo repositório
+- Refeitas as migrações e aplicadas novamente com `makemigrations` e `migrate`
+
+**Justificação:**
+O repositório anterior tinha conflitos de configuração entre o nome da pasta do projeto e o nome da app Django, o que causava erros de importação. Criar um repositório novo foi a solução mais limpa para resolver o problema.
+
+**Entidades relacionadas:** —
+
+---
+
+## Entrada 11 — Carregamento dos Docentes no loader_uc.py
+
+**Descrição:**
+Acrescentei ao loader_uc.py o carregamento dos dados dos Docentes a partir do ficheiro JSON geral da licenciatura.
+
+**Alteração:**
+- Adicionados os atributos `card_code`, `employee_code`, `degree` e `regime` à entidade Docente
+- Removido o atributo `site`
+
+**Justificação:**
+Estes eram os atributos mais relevantes presentes no JSON. O atributo `site` foi removido porque deixou de fazer sentido após perceber que os dados vinham de uma API e não de um site consultado manualmente.
+
+**Entidades relacionadas:** Docente
+
+---
+
+## Entrada 12 — Carregamento da Licenciatura e correção de erro
+
+**Descrição:**
+Adicionei ao loader_uc.py o carregamento dos dados da Licenciatura. Durante os testes detetei um erro em que os ECTS estavam a ser guardados no campo errado.
+
+**Alteração:**
+- Carregamento da Licenciatura com os atributos `curso_codigo`, `semestres`, `descricao`, `objetivos` e `curso_ects`
+- Corrigido erro em que os ECTS estavam a ser guardados no campo `curso_codigo`
+
+**Justificação:**
+Erro detetado ao verificar os dados carregados na base de dados pelo admin. O campo `curso_codigo` estava a receber um valor errado por troca na ordem dos atributos no `create()`.
+
+**Entidades relacionadas:** Licenciatura
+
+---
+
+## Entrada 13 — Adição de blank=True em campos opcionais
+
+**Descrição:**
+Tornei opcionais alguns campos que nem sempre têm valor, para evitar erros ao criar registos sem esses dados disponíveis.
+
+**Alteração:**
+- Adicionado `blank=True` ao atributo `repositorio` da entidade Projeto
+- Adicionado `blank=True` ao atributo `docente` da entidade UC
+
+**Justificação:**
+Nem todos os projetos têm repositório. Ao criar as UCs os docentes podem ainda não estar registados na base de dados, por isso o campo tem de ser opcional.
+
+**Entidades relacionadas:** Projeto, UC
+
+---
+
+## Entrada 14 — Criação dos registos de MakingOf e MarkDown
+
+**Descrição:**
+Criei todas as entradas do Making Of no admin do Django e elaborei o documento MarkDown com o registo detalhado de todo o processo de desenvolvimento.
+
+**Alteração:**
+- Criados 14 registos na entidade MakingOf no admin
+- Criado o ficheiro `making_of.md` com todas as entradas documentadas
+
+**Justificação:**
+O Making Of é uma componente obrigatória do projeto que permite documentar todas as decisões tomadas ao longo do desenvolvimento, incluindo alterações às entidades, erros encontrados e uso de ferramentas de IA.
+
+**LLM:** Usei o Claude para ajudar a estruturar e redigir o texto do Making Of. O modelo ajudou a organizar a informação por tópicos e a tornar a escrita mais clara e coerente, mas todo o conteúdo e decisões descritas são da minha autoria.
+
+**Entidades relacionadas:** MakingOf
