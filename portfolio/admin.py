@@ -35,7 +35,7 @@ class FormacaoAdmin(admin.ModelAdmin):
 class TecnologiaAdmin(admin.ModelAdmin):
     ordering = ("nome",)
     search_fields = ("nome",)
-    list_display = ("nome", "site_oficial")
+    list_display = ("nome", )
 
 
 class CompetenciaAdmin(admin.ModelAdmin):

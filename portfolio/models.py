@@ -29,7 +29,6 @@ class Tecnologia(models.Model):
     classificacao = models.IntegerField()
     descricao = models.TextField()
     logo = models.ImageField(upload_to="fotos_tecnologia/", blank=True)
-    site_oficial = models.URLField(blank=True)
     formacao = models.ManyToManyField(Formacao, blank=True, related_name="tecnologias")
 
     def __str__(self):
@@ -49,8 +48,8 @@ class Projeto(models.Model):
     conceitos = models.CharField(max_length=500)
     descricao = models.TextField()
     repositorio = models.CharField(max_length=100, blank=True)
-    tecnologia = models.ManyToManyField(Tecnologia, related_name="projetos")
-    competencia = models.ManyToManyField(Competencia, related_name="projetos")
+    tecnologia = models.ManyToManyField(Tecnologia, related_name="projetos", blank=True)
+    competencia = models.ManyToManyField(Competencia, related_name="projetos", blank=True)
 
     def __str__(self):
         return self.nome
