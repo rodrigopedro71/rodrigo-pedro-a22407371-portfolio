@@ -236,6 +236,6 @@ Criei todas as entradas do Making Of no admin do Django e elaborei o documento M
 **Justificação:**
 O Making Of é uma componente obrigatória do projeto que permite documentar todas as decisões tomadas ao longo do desenvolvimento, incluindo alterações às entidades, erros encontrados e uso de ferramentas de IA.
 
-**LLM:** Usei o Claude para ajudar a estruturar e redigir o texto do Making Of. O modelo ajudou a organizar a informação por tópicos e a tornar a escrita mais clara e coerente, mas todo o conteúdo e decisões descritas são da minha autoria.
+**LLM:** Usei o Claude para ajudar a estruturar e redigir o texto do Making Of. O Claude ajudou a organizar a informação por tópicos e a tornar a escrita mais clara e coerente, mas todo o conteúdo e decisões descritas são da minha autoria.
 
 **Entidades relacionadas:** MakingOf
