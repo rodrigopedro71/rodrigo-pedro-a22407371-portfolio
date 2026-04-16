@@ -1,0 +1,19 @@
+{% extends 'escola/base.html' %}
+
+{% block content %}
+<h1>Alunos</h1>
+
+{% for aluno in alunos %}
+    <div class="card">
+        <h2>{{ aluno.nome }}</h2>
+        <p><strong>Número:</strong> {{ aluno.numero }}</p>
+        <h4>CURSOS</h4>
+
+        {% for curso in aluno.cursos.all %}
+            <span class="tag">{{ curso.nome }}</span>
+        {% empty %}
+            <p>Sem cursos</p>
+        {% endfor %}
+    </div>
+{% endfor %}
+{% endblock %}
