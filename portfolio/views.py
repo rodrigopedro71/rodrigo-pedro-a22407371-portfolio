@@ -114,19 +114,12 @@ def about_view(request):
     tecnologias = Tecnologia.objects.all()
     makingofs = MakingOf.objects.all()
 
-    ficheiro = os.path.join(settings.BASE_DIR, "portfolio/static/portfolio/about/mvt.md")
-
-    with open(ficheiro, "r", encoding="utf-8") as f:
-        mvt = f.read()
-
     context = {
         "tecnologias": tecnologias,
-        "makingofs": makingofs,
-        "mvt": mvt
+        "makingofs": makingofs
     }
 
     return render(request, "portfolio/about.html", context)
-
 
 # CRUD
 
