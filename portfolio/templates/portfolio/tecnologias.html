@@ -1,0 +1,58 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<h2>Lista de Tecnologias</h2>
+
+{% if gestor %}
+    <a href="{% url 'novo_tecnologia' %}">
+        <button>Adicionar Tecnologia</button>
+    </a>
+{% endif %}
+
+<section>
+    {% for tecnologia in tecnologias %}
+        <article>
+
+            <h3>{{ tecnologia.nome }}</h3>
+            <h4>Classificação: {{ tecnologia.classificacao }}/5</h4>
+
+            <br>
+
+            <p>{{ tecnologia.descricao }}</p>
+
+            {% if tecnologia.logo %}
+                <br>
+                <img src="{{ tecnologia.logo.url }}" alt="" width="100" height="100">
+                <br>
+            {% endif %}
+
+            <br>
+
+            <a href="{{ tecnologia.site_oficial }}" target="_blank">Visitar site oficial</a>
+
+            {% if tecnologia.formacao.all %}
+                <h4>Formações associadas:</h4>
+            {% endif %}
+
+            {% for formacao in tecnologia.formacao.all %}
+                <p>{{ formacao.tipo }}</p>
+            {% endfor %}
+
+            {% if gestor %}
+                <br>
+
+                <a href="{% url 'edita_tecnologia' tecnologia.id %}">
+                    <button>Editar Tecnologia</button>
+                </a>
+
+                <a href="{% url 'apaga_tecnologia' tecnologia.id %}">
+                    <button>Remover Tecnologia</button>
+                </a>
+            {% endif %}
+
+        </article>
+    {% endfor %}
+</section>
+
+{% endblock %}

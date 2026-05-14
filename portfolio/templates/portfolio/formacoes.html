@@ -1,0 +1,40 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<h2>Lista de Formações</h2>
+
+{% if gestor %}
+    <a href="{% url 'novo_formacao' %}">
+        <button>Adicionar Formação</button>
+    </a>
+{% endif %}
+
+<section>
+    {% for formacao in formacoes %}
+        <article>
+
+            <h3>{{ formacao.tipo }}</h3>
+            <h4>Data: {{ formacao.data }}</h4>
+
+            <br>
+
+            <p>{{ formacao.descricao }}</p>
+
+            {% if gestor %}
+                <br>
+
+                <a href="{% url 'edita_formacao' formacao.id %}">
+                    <button>Editar Formação</button>
+                </a>
+
+                <a href="{% url 'apaga_formacao' formacao.id %}">
+                    <button>Remover Formação</button>
+                </a>
+            {% endif %}
+
+        </article>
+    {% endfor %}
+</section>
+
+{% endblock %}

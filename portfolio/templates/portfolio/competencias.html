@@ -1,0 +1,37 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<h2>Lista de Competências</h2>
+
+{% if gestor %}
+    <a href="{% url 'novo_competencia' %}">
+        <button>Adicionar Competência</button>
+    </a>
+{% endif %}
+
+<section>
+    {% for competencia in competencias %}
+        <article>
+
+            <h3>{{ competencia.tipo }}</h3>
+
+            <p>{{ competencia.descricao }}</p>
+
+            {% if gestor %}
+                <br>
+
+                <a href="{% url 'edita_competencia' competencia.id %}">
+                    <button>Editar Competência</button>
+                </a>
+
+                <a href="{% url 'apaga_competencia' competencia.id %}">
+                    <button>Remover Competência</button>
+                </a>
+            {% endif %}
+
+        </article>
+    {% endfor %}
+</section>
+
+{% endblock %}

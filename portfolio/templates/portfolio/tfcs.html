@@ -1,0 +1,65 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<h2>Trabalhos Finais de Curso</h2>
+
+<section>
+    {% for tfc in tfcs %}
+        <article>
+
+            <h3>{{ tfc.titulo }}</h3>
+            <h4>Aluno: {{ tfc.aluno }}</h4>
+            <h4>Orientador: {{ tfc.orientador }}</h4>
+
+            <br>
+
+            <details>
+                <summary>Mostrar informação completa</summary>
+
+                <br>
+
+                <h4 style="display:inline">Licenciatura:</h4>
+                <p style="display:inline"> {{ tfc.licenciatura }}</p>
+
+                <br><br>
+
+                <h4 style="display:inline">Documento PDF:</h4>
+                <p style="display:inline"> {{ tfc.pdf }}</p>
+
+                <br>
+
+                <h4 style="display:inline">Contacto:</h4>
+                <p style="display:inline"> {{ tfc.email }}</p>
+
+                <br><br>
+
+                <h4 style="display:inline">Resumo:</h4>
+                <p style="display:inline"> {{ tfc.resumo }}</p>
+
+                <br><br>
+
+                <h4 style="display:inline">Palavras-chave:</h4>
+                <p style="display:inline"> {{ tfc.palavras_chave }}</p>
+
+                <br><br>
+
+                <h4 style="display:inline">Área:</h4>
+                <p style="display:inline"> {{ tfc.area }}</p>
+
+                <br><br>
+
+                <h4 style="display:inline">Tecnologias usadas:</h4>
+                <p style="display:inline"> {{ tfc.tecnologias }}</p>
+
+                <br><br>
+
+                <h4 style="display:inline">Classificação:</h4>
+                <p style="display:inline"> {{ tfc.rating }}/20</p>
+            </details>
+
+        </article>
+    {% endfor %}
+</section>
+
+{% endblock %}

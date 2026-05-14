@@ -1,0 +1,43 @@
+<!-- templates/escola/cursos.html -->
+
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<h2>UCs</h2>
+
+<section>
+    <article>
+
+        <h3>{{ uc.nome }} - {{ uc.ects }} ECTS</h3>
+        <h4>{{ uc.ano }}º ano | {{ uc.semestre }}</h4>
+
+        <br>
+
+        <h4>Descrição:</h4>
+        <p>{{ uc.descricao }}</p>
+
+        <br>
+
+        <h4>Objetivo:</h4>
+        <p>{{ uc.objetivo }}</p>
+
+        <br>
+
+        <h4>Programa:</h4>
+        <p>{{ uc.programa }}</p>
+
+        <br>
+
+        <h4>Docentes:</h4>
+
+        {% for docente in uc.docente.all %}
+            <p>{{ docente.nome }}</p>
+        {% empty %}
+            <p>Esta disciplina ainda não tem docentes atribuídos</p>
+        {% endfor %}
+
+    </article>
+</section>
+
+{% endblock %}

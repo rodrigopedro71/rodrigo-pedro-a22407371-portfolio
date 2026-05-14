@@ -1,0 +1,42 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<h2>Making Of</h2>
+
+<section>
+    {% for makingof in makingofs %}
+        <article>
+
+            <h3>{{ makingof.titulo }}</h3>
+
+            {% if makingof.descricao %}
+                <br>
+                <p>Descrição do trabalho: {{ makingof.descricao }}</p>
+            {% endif %}
+
+            {% if makingof.alteracao %}
+                <br>
+                <p>Alterações realizadas: {{ makingof.alteracao }}</p>
+            {% endif %}
+
+            {% if makingof.justificacao %}
+                <br>
+                <p>Motivo da alteração: {{ makingof.justificacao }}</p>
+            {% endif %}
+
+            {% if makingof.llm %}
+                <br>
+                <p>Utilização de LLMs: {{ makingof.llm }}</p>
+            {% endif %}
+
+            {% if makingof.fotos %}
+                <br>
+                <img src="{{ makingof.fotos.url }}" alt="" width="250">
+            {% endif %}
+
+        </article>
+    {% endfor %}
+</section>
+
+{% endblock %}

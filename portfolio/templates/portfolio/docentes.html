@@ -1,0 +1,32 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<h2>Docentes da licenciatura {{ licenciatura.nome }}</h2>
+
+<section>
+    {% for docente in docentes %}
+        <article>
+
+            <h3>{{ docente.nome }}</h3>
+            <h4>Email: {{ docente.email }}</h4>
+
+            <br>
+
+            <details>
+                <summary>Mostrar detalhes do docente</summary>
+
+                <h4 style="display: inline">Grau académico:</h4>
+                <p style="display: inline"> {{ docente.degree }}</p>
+
+                <br>
+
+                <h4 style="display: inline">Regime:</h4>
+                <p style="display: inline"> {{ docente.regime }}</p>
+            </details>
+
+        </article>
+    {% endfor %}
+</section>
+
+{% endblock %}

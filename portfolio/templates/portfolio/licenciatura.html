@@ -1,0 +1,50 @@
+<!-- templates/escola/licenciaturas.html -->
+
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<h2>Cursos de Licenciatura</h2>
+
+<section>
+    {% for licenciatura in licenciaturas %}
+        <article>
+
+            <h3>{{ licenciatura.nome }}</h3>
+
+            <h4>Duração do curso: {{ licenciatura.semestres }} semestres</h4>
+            <h4>Total de ECTS: {{ licenciatura.curso_ects }}</h4>
+
+            <br>
+
+            <h4>Descrição:</h4>
+            <p>{{ licenciatura.descricao }}</p>
+
+            <br>
+
+            <h4>Objetivos do curso:</h4>
+            <p>{{ licenciatura.objetivos }}</p>
+
+            <br>
+
+            <a href="{% url 'docentes' licenciatura.id %}">Consultar docentes</a>
+
+            <br><br>
+
+            <h4>Unidades Curriculares:</h4>
+
+            <details>
+                <summary>Mostrar UCs da licenciatura</summary>
+
+                {% for uc in licenciatura.uc.all %}
+                    <a href="{% url 'uc' uc.id %}">{{ uc.nome }}</a>
+                    <br>
+                {% endfor %}
+
+            </details>
+
+        </article>
+    {% endfor %}
+</section>
+
+{% endblock %}

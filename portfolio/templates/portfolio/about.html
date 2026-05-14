@@ -1,0 +1,44 @@
+{% extends "portfolio/base.html" %}
+{% load markdownify %}
+
+{% block content %}
+
+<h2>Bem-vindo ao meu portfólio!</h2>
+
+<section>
+    <h3>Arquitetura MVT do projeto</h3>
+
+    <article>
+        <p>{{ mvt | markdownify }}</p>
+    </article>
+</section>
+
+<section>
+    <h3>Tecnologias utilizadas no site</h3>
+
+    {% for tecnologia in tecnologias %}
+        {% if tecnologia.portfolio %}
+            <article>
+                <h4>{{ tecnologia.nome }}</h4>
+                <p>{{ tecnologia.descricao }}</p>
+                <p>{{ tecnologia.calssificacao }}</p>
+            </article>
+        {% endif %}
+    {% endfor %}
+</section>
+
+<section>
+    <h3>Processo de desenvolvimento</h3>
+
+    {% for makingof in makingofs %}
+        <article>
+            <h4>{{ makingof.titulo }}</h4>
+
+            <p>{{ makingof.descricao | markdownify }}</p>
+            <p>{{ makingof.alteracao }}</p>
+            <p>{{ makingof.justificacao }}</p>
+        </article>
+    {% endfor %}
+</section>
+
+{% endblock %}

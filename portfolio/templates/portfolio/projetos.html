@@ -1,0 +1,72 @@
+<!-- templates/escola/projetos.html -->
+
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+<h2>Projetos desenvolvidos</h2>
+
+{% if gestor %}
+    <a href="{% url 'novo_projeto' %}">
+        <button>Adicionar Projeto</button>
+    </a>
+{% endif %}
+
+<section>
+    {% for projeto in projetos %}
+        <article>
+
+            <h3>{{ projeto.nome }}</h3>
+
+            <p>{{ projeto.descricao }}</p>
+
+            <br>
+
+            {% if projeto.uc %}
+                <h4>Unidade Curricular:</h4>
+                <p>{{ projeto.uc.nome }}</p>
+            {% endif %}
+
+            <br>
+
+            <h4>Tecnologias utilizadas:</h4>
+
+            {% for tecnologia in projeto.tecnologia.all %}
+                <p>{{ tecnologia.nome }}</p>
+            {% endfor %}
+
+            <br>
+
+            <h4>Conceitos aprendidos:</h4>
+            <p>{{ projeto.conceitos }}</p>
+
+            <br>
+
+            <h4>Competências desenvolvidas:</h4>
+
+            {% for competencia in projeto.competencia.all %}
+                <p>{{ competencia.tipo }}</p>
+            {% endfor %}
+
+            {% if projeto.repositorio %}
+                <br>
+                <a href="{{ projeto.repositorio }}" target="_blank">Ver repositório do projeto</a>
+            {% endif %}
+
+            {% if gestor %}
+                <br>
+
+                <a href="{% url 'edita_projeto' projeto.id %}">
+                    <button>Editar Projeto</button>
+                </a>
+
+                <a href="{% url 'apaga_projeto' projeto.id %}">
+                    <button>Eliminar Projeto</button>
+                </a>
+            {% endif %}
+
+        </article>
+    {% endfor %}
+</section>
+
+{% endblock %}
