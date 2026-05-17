@@ -1,0 +1,16 @@
+{% extends "portfolio/base.html" %}
+{% block content %}
+<h2>Artigos</h2>
+
+{% if autor %}
+    <a href="{% url 'novo_artigo' %}"><button>Novo Artigo</button></a>
+{% endif %}
+
+{% for artigo in artigos %}
+<article>
+    <h3><a href="{% url 'detalhe_artigo' artigo.id %}">{{ artigo.titulo }}</a></h3>
+    <p>Por {{ artigo.autor }} | {{ artigo.data_criacao|date:"d/m/Y" }}</p>
+    <p>👍 {{ artigo.likes.count }} likes</p>
+</article>
+{% endfor %}
+{% endblock %}

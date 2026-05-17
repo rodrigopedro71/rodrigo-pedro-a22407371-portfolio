@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "portfolio",
     "escola",
+    "accounts",
+    "artigos",
 ]
 
 MIDDLEWARE = [
@@ -122,3 +124,5 @@ import os
 
 # Pasta no servidor onde os ficheiros vão ser guardados
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+LOGIN_URL = '/accounts/login/'
