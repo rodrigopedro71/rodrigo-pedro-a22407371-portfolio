@@ -86,7 +86,7 @@ def tfcs_view(request):
 
 
 def makingof_view(request):
-    makingofs = MakingOf.objects.all()
+    makingofs = MakingOf.objects.all().order_by("id")
     context = {
         "makingofs": makingofs
     }
